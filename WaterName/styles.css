@@ -7,7 +7,6 @@ html {
   background: #03001e;
 }
 
-
 .center {
   position: absolute;
   top: 40%;
@@ -63,5 +62,11 @@ h2:nth-child(2) {
       100% 100%,
       0% 100%
     );
+  }
+}
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 8vw;
   }
 }
