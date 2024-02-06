@@ -2,9 +2,14 @@ html,
 body {
   overflow: hidden;
 }
-
 body {
-  background: linear-gradient(315deg, rgb(0, 0, 94) 3%, rgb(60, 132, 206) 38%, rgb(48, 238, 226) 68%, rgba(0, 119, 113, 0.78) 98%);
+  background: linear-gradient(
+    315deg,
+    rgba(0, 0, 94, 1) 3%,
+    rgba(60, 132, 206, 1) 38%,
+    rgba(48, 238, 226, 1) 68%,
+    rgba(0, 119, 113, 0.78) 98%
+  );
   animation: gradient 15s ease infinite;
   background-size: 400% 400%;
   background-attachment: fixed;
@@ -21,11 +26,12 @@ body {
   height: 335px;
   background-color: #fbda61;
   background-image: linear-gradient(45deg, #fbda61 0%, #ff5acd 100%);
+
   border-radius: 100px;
   overflow: hidden;
 }
 
-.bubbles-container {
+.content {
   height: 100%;
   width: 100%;
   position: absolute;
@@ -46,91 +52,77 @@ body {
   background: rgba(255, 255, 255, 0.5);
 }
 
-.bubbles-container span:nth-child(1) {
+span:nth-child(1) {
   top: 20%;
   left: 20%;
   animation: animate 8s linear infinite;
 }
-
-.bubbles-container span:nth-child(2) {
+span:nth-child(2) {
   top: 60%;
   left: 80%;
   animation: animate 10s linear infinite;
 }
-
-.bubbles-container span:nth-child(3) {
+span:nth-child(3) {
   top: 40%;
   left: 40%;
   animation: animate 3s linear infinite;
 }
-
-.bubbles-container span:nth-child(4) {
+span:nth-child(4) {
   top: 66%;
   left: 30%;
   animation: animate 7s linear infinite;
 }
-
-.bubbles-container span:nth-child(5) {
+span:nth-child(5) {
   top: 90%;
   left: 10%;
   animation: animate 9s linear infinite;
 }
-
-.bubbles-container span:nth-child(6) {
+span:nth-child(6) {
   top: 30%;
   left: 60%;
   animation: animate 5s linear infinite;
 }
-
-.bubbles-container span:nth-child(7) {
+span:nth-child(7) {
   top: 70%;
   left: 20%;
   animation: animate 8s linear infinite;
 }
-
-.bubbles-container span:nth-child(8) {
+span:nth-child(8) {
   top: 75%;
   left: 60%;
   animation: animate 10s linear infinite;
 }
-
-.bubbles-container span:nth-child(9) {
+span:nth-child(9) {
   top: 50%;
   left: 50%;
   animation: animate 6s linear infinite;
 }
-
-.bubbles-container span:nth-child(10) {
+span:nth-child(10) {
   top: 45%;
   left: 20%;
   animation: animate 10s linear infinite;
 }
-
-.bubbles-container span:nth-child(11) {
+span:nth-child(11) {
   top: 10%;
   left: 90%;
   animation: animate 9s linear infinite;
 }
-
-.bubbles-container span:nth-child(12) {
+span:nth-child(12) {
   top: 20%;
   left: 70%;
   animation: animate 7s linear infinite;
 }
-
-.bubbles-container span:nth-child(13) {
+span:nth-child(13) {
   top: 20%;
   left: 20%;
   animation: animate 8s linear infinite;
 }
-
-.bubbles-container span:nth-child(14) {
+span:nth-child(14) {
   top: 60%;
   left: 5%;
   animation: animate 6s linear infinite;
 }
-
-.bubbles-container span:nth-child(15) {
+span:nth-child(15) {
   top: 90%;
   left: 80%;
   animation: animate 9s linear infinite;
@@ -144,6 +136,7 @@ body {
     transform: scale(1.3) translateY(-100px) rotate(360deg);
   }
 }
+
 @keyframes gradient {
   0% {
     background-position: 0% 0%;
@@ -154,4 +147,4 @@ body {
   100% {
     background-position: 0% 0%;
   }
-}/*# sourceMappingURL=styles.css.map */
+}
