@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Convertir JPG/PNG a WEBP</title>
-</head>
-<body>
-    <h2>Convertir una imagen .jpg o .png a .webp</h2>
-    <form id="uploadForm" enctype="multipart/form-data" action="upload.php" method="POST">
-        <input type="file" name="image" accept="image/jpeg, image/png" required>
-        <br><br>
-        <input type="submit" value="Convertir a WEBP">
+  </head>
+  <body>
+    <h2>Convertir imágenes .jpg o .png a .webp</h2>
+    <form
+      id="uploadForm"
+      enctype="multipart/form-data"
+      action="upload.php"
+      method="POST"
+    >
+      <input
+        type="file"
+        name="images[]"
+        accept="image/jpeg, image/png"
+        multiple
+        required
+      />
+      <br /><br />
+      <input type="submit" value="Convertir a WEBP" />
     </form>
-    
+
     <div id="result">
-        <!-- Aquí se mostrará la imagen convertida -->
+      <!-- Aquí se mostrará la imagen convertida -->
     </div>
 
     <!-- Aquí el JavaScript para mejorar la experiencia del usuario (opcional) -->
     <script>
-        document.getElementById("uploadForm").onsubmit = function() {
-            document.getElementById("result").innerHTML = "Procesando...";
-        };
+      document.getElementById("uploadForm").onsubmit = function () {
+        document.getElementById("result").innerHTML = "Procesando...";
+      };
     </script>
-</body>
+  </body>
 </html>
