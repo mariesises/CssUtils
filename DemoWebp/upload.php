@@ -5,8 +5,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $fileName = $_FILES['image']['name'];
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        if ($fileExtension === 'jpg' || $fileExtension === 'jpeg') {
-            $image = imagecreatefromjpeg($fileTmpPath);
+        if ($fileExtension === 'jpg' || $fileExtension === 'jpeg' || $fileExtension === 'png') {
+            if ($fileExtension === 'jpg' || $fileExtension === 'jpeg') {
+                $image = imagecreatefromjpeg($fileTmpPath);
+            } elseif ($fileExtension === 'png') {
+                $image = imagecreatefrompng($fileTmpPath);
+            }
+
             $outputFile = 'uploads/' . pathinfo($fileName, PATHINFO_FILENAME) . '.webp';
 
             if (!is_dir('uploads')) {
@@ -22,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "<p>Error al convertir la imagen.</p>";
             }
         } else {
-            echo "<p>Por favor, suba una imagen en formato JPG.</p>";
+            echo "<p>Por favor, suba una imagen en formato JPG o PNG.</p>";
         }
     } else {
         echo "<p>Hubo un error al subir el archivo.</p>";
