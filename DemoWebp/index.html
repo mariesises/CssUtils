@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertir JPG a WEBP</title>
+</head>
+<body>
+    <h2>Convertir una imagen .jpg a .webp</h2>
+    <form id="uploadForm" enctype="multipart/form-data" action="upload.php" method="POST">
+        <input type="file" name="image" accept="image/jpeg" required>
+        <br><br>
+        <input type="submit" value="Convertir a WEBP">
+    </form>
+    
+    <div id="result">
+        <!-- Aquí se mostrará la imagen convertida -->
+    </div>
+
+    <!-- Aquí el JavaScript para mejorar la experiencia del usuario (opcional) -->
+    <script>
+        document.getElementById("uploadForm").onsubmit = function() {
+            document.getElementById("result").innerHTML = "Procesando...";
+        };
+    </script>
+</body>
+</html>
