@@ -3,35 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>Convertir JPG/PNG a WEBP</title>
   </head>
   <body>
-    <h2>Convertir imágenes .jpg o .png a .webp</h2>
-    <form
-      id="uploadForm"
-      enctype="multipart/form-data"
-      action="upload.php"
-      method="POST"
-    >
-      <input
-        type="file"
-        name="images[]"
-        accept="image/jpeg, image/png"
-        multiple
-        required
-      />
-      <br /><br />
-      <input type="submit" value="Convertir a WEBP" />
-    </form>
+    <h1 align="center">Convertir JPG/PNG a WEBP</h1>
+    <div class="frame">
+      <h2>Seleccionar imágenes - Máx 60</h2>
+      <form
+        id="uploadForm"
+        enctype="multipart/form-data"
+        action="upload.php"
+        method="POST"
+      >
+        <input
+          type="file"
+          name="images[]"
+          accept="image/jpeg, image/png"
+          multiple
+          required
+        />
+        <br /><br />
+        <input type="submit" value="Convertir a WEBP" />
+      </form>
 
-    <div id="result">
-      <!-- Aquí se mostrará la imagen convertida -->
+      <div id="result">
+        <!-- Aquí se mostrará la imagen convertida -->
+      </div>
     </div>
 
-    <!-- Aquí el JavaScript para mejorar la experiencia del usuario (opcional) -->
     <script>
-      document.getElementById("uploadForm").onsubmit = function () {
+      document.getElementById("uploadForm").onsubmit = function (event) {
+        event.preventDefault();
         document.getElementById("result").innerHTML = "Procesando...";
+
+        const formData = new FormData(document.getElementById("uploadForm"));
+        fetch("upload.php", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("result").innerHTML = data;
+            const link = document.getElementById("downloadLink");
+            if (link) {
+              link.click();
+            }
+          })
+          .catch((error) => {
+            document.getElementById("result").innerHTML =
+              "Hubo un error durante el procesamiento.";
+          });
       };
     </script>
   </body>
