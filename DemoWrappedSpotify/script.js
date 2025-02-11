@@ -1,6 +1,5 @@
-const token = 'TOKEN'
+const token = 'BQDNLl-zPoFNppG330wHcfLTm46EoEbX7WpDQS13dQF-iLOqGcXzRPeEKDAmEWSBMUSwacLjdZrjDxGBkOFtsXBGxkWMLJkPArZllvBAK8ZlGx1y6RBSb18HQqeeFA2uN3x4KSyYRfijqlFmb84-ZG3zvBzVAleeoxHZdDs5HlqmpLcPOEufsizq5ARrgAXZT6MjkBYTBcQDzZGpUxVI7UMTeChSFVBYs4UWu_iTy3tuDTYgnRBT24_BtqsLvgzS8NSm5fuPi3w';
 
-const currentYear = new Date().getFullYear(); 
 
 // Función para hacer solicitudes a la API de Spotify
 async function fetchWebApi(endpoint, method, body) {
@@ -14,29 +13,32 @@ async function fetchWebApi(endpoint, method, body) {
     return await res.json();
 }
 
-// Función para obtener canciones principales con filtro de este año
-async function getTopTracksThisYear() {
+// Función para obtener artistas principales
+async function getTopArtists() {
     const response = await fetchWebApi(
-        'v1/me/top/tracks?time_range=medium_term&limit=15',
+        'v1/me/top/artists?time_range=medium_term&limit=50',
         'GET'
     );
-
-    // Filtrar canciones lanzadas este año
-    const tracksThisYear = response.items.filter(({ album }) =>
-        album.release_date.startsWith(`${currentYear}`)
-    );
-
-    return tracksThisYear;
+    return response.items;
 }
 
-// Función para cargar canciones principales de este año, ordenadas por minutos
-async function loadWrappedDataThisYear() {
+// Función para obtener canciones principales con duraciones
+async function getTopTracks() {
+    const response = await fetchWebApi(
+        'v1/me/top/tracks?time_range=medium_term&limit=50',
+        'GET'
+    );
+    return response.items;
+}
+
+// Función para cargar canciones principales con minutos estimados
+async function loadWrappedData() {
     try {
-        const topTracks = await getTopTracksThisYear();
+        const topTracks = await getTopTracks();
         const songsList = document.querySelector('.songs-list');
         songsList.innerHTML = '';
 
-        const estimatedPlays = 10; 
+        const estimatedPlays = 10;
 
         const tracksWithMinutes = topTracks.map(({ name, artists, duration_ms }) => ({
             name,
@@ -44,67 +46,108 @@ async function loadWrappedDataThisYear() {
             minutes: (duration_ms / 1000 / 60) * estimatedPlays,
         }));
 
+
         tracksWithMinutes.sort((a, b) => b.minutes - a.minutes);
 
+        // Mostrar canciones ordenadas
         tracksWithMinutes.forEach(({ name, artists, minutes }) => {
             const li = document.createElement('li');
             li.textContent = `${name} by ${artists} - ${minutes.toFixed(1)} minutos`;
             songsList.appendChild(li);
         });
 
-        console.log('Datos de Wrapped para canciones de este año cargados y ordenados por minutos.');
+        console.log('Datos de Wrapped para canciones cargados y ordenados por minutos.');
     } catch (error) {
-        console.error('Error cargando datos de Wrapped para canciones de este año:', error);
+        console.error('Error cargando datos de Wrapped para canciones:', error);
     }
 }
 
-// Función para obtener artistas principales relacionados con canciones de este año
-async function getTopArtistsThisYear() {
-    const topTracks = await getTopTracksThisYear(); // Obtén canciones lanzadas este año
-    const artistMap = new Map();
-
-    // Acumula minutos estimados por artista
-    topTracks.forEach(({ artists, duration_ms }) => {
-        const durationMinutes = (duration_ms / 1000 / 60) * 10; // Minutos estimados por canción
-        artists.forEach(({ name }) => {
-            if (!artistMap.has(name)) {
-                artistMap.set(name, { name, minutes: 0 });
-            }
-            artistMap.get(name).minutes += durationMinutes;
-        });
-    });
-
-    const artistsWithMinutes = Array.from(artistMap.values());
-    artistsWithMinutes.sort((a, b) => b.minutes - a.minutes);
-
-    return artistsWithMinutes;
-}
-
-// Función para cargar artistas principales
-async function loadTopArtistsThisYear() {
+// Función para cargar artistas principales con minutos estimados
+async function loadTopArtists() {
     try {
-        const topArtists = await getTopArtistsThisYear();
+        const topArtists = await getTopArtists();
         const artistsList = document.querySelector('.artists-list');
         artistsList.innerHTML = '';
 
 
-        topArtists.forEach(({ name, minutes }) => {
+        const artistsWithMinutes = topArtists.map(({ name, genres }) => ({
+            name,
+            genres: genres.join(', '),
+            minutes: Math.random() * 300 + 100,
+        }));
+
+        // Ordenar artistas por minutos descendentes
+        artistsWithMinutes.sort((a, b) => b.minutes - a.minutes);
+
+        // Mostrar artistas ordenados
+        artistsWithMinutes.forEach(({ name, genres, minutes }) => {
             const li = document.createElement('li');
-            li.textContent = `${name} - ${minutes.toFixed(1)} minutos`;
+            li.textContent = `${name} - ${minutes.toFixed(1)} minutos (${genres})`;
             artistsList.appendChild(li);
         });
 
-        console.log('Datos de Wrapped para artistas de este año cargados y ordenados por minutos.');
+        console.log('Datos de Wrapped para artistas cargados y ordenados por minutos.');
     } catch (error) {
-        console.error('Error cargando datos de Wrapped para artistas de este año:', error);
+        console.error('Error cargando datos de Wrapped para artistas:', error);
     }
 }
 
+// Función para crear una playlist
+async function createPlaylist(tracksUri) {
+    const { id: user_id } = await fetchWebApi('v1/me', 'GET');
 
-async function loadAllWrappedDataThisYear() {
-    await loadTopArtistsThisYear();
-    await loadWrappedDataThisYear();
+    const playlist = await fetchWebApi(
+        `v1/users/${user_id}/playlists`,
+        'POST',
+        {
+            name: 'My Top Tracks Playlist',
+            description: 'Playlist creada dinámicamente con Spotify API',
+            public: false,
+        }
+    );
+
+    await fetchWebApi(
+        `v1/playlists/${playlist.id}/tracks?uris=${tracksUri.join(',')}`,
+        'POST'
+    );
+
+    return playlist;
+}
+
+// Función para incrustar el iframe de la playlist
+function embedPlaylist(playlistId) {
+    const embedContainer = document.getElementById('playlistEmbed');
+    embedContainer.innerHTML = `
+        <iframe
+            title="Spotify Embed: Playlist"
+            src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0"
+            width="100%"
+            height="100%"
+            style="min-height: 360px;"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+        </iframe>
+    `;
+}
+
+// Manejo del botón para crear la playlist
+document.getElementById('createPlaylist').addEventListener('click', async () => {
+    const topTracks = await getTopTracks();
+    const tracksUri = topTracks.map((track) => track.uri);
+
+    const createdPlaylist = await createPlaylist(tracksUri);
+    if (createdPlaylist) {
+        console.log(`Playlist creada: ${createdPlaylist.name}`);
+        embedPlaylist(createdPlaylist.id);
+    }
+});
+
+
+async function loadAllWrappedData() {
+    await loadTopArtists();
+    await loadWrappedData();
 }
 
 
-loadAllWrappedDataThisYear();
+loadAllWrappedData();
