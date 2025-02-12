@@ -1,4 +1,4 @@
-const token = 'BQDNLl-zPoFNppG330wHcfLTm46EoEbX7WpDQS13dQF-iLOqGcXzRPeEKDAmEWSBMUSwacLjdZrjDxGBkOFtsXBGxkWMLJkPArZllvBAK8ZlGx1y6RBSb18HQqeeFA2uN3x4KSyYRfijqlFmb84-ZG3zvBzVAleeoxHZdDs5HlqmpLcPOEufsizq5ARrgAXZT6MjkBYTBcQDzZGpUxVI7UMTeChSFVBYs4UWu_iTy3tuDTYgnRBT24_BtqsLvgzS8NSm5fuPi3w';
+const token = 'TOKEN';
 
 
 // Función para hacer solicitudes a la API de Spotify
