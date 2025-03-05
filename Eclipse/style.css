@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #5a0f2d, #180308);
+    overflow: hidden;
+}
+.scene {
+    position: relative;
+    width: 500px;
+    height: 500px;
+}
+.halo, .halo-front {
+    position: absolute;
+    width: 450px;
+    height: 80px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(80deg);
+    background: rgba(255, 200, 50, 0.9);
+    box-shadow: 0 0 20px rgba(255, 200, 50, 1);
+    filter: blur(5px);
+}
+.halo {
+    z-index: 1;
+}
+.eclipse {
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    background: #1a0e1a;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(10deg);
+    box-shadow: 0 0 30px 10px rgba(255, 200, 50, 0.6);
+    z-index: 2;
+}
+.halo-front {
+    z-index: 3;
+    clip-path: ellipse(100% 40% at center top);
+}
